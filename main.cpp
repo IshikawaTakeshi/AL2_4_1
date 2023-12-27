@@ -16,7 +16,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	Particle* particle[200];
 	for (int i = 0; i < 200; i++) {
-		particle[i] = new Particle({ 0,0 }, { 10,10 }, 2.0f, false);
+		particle[i] = new Particle({ 0,0 }, { 10,10 }, 0.1f, false);
 	}
 
 	// キー入力結果を受け取る箱
@@ -39,8 +39,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		emitter->SetMousePos(mousePosX, mousePosY);
 		emitter->Update(keys);
+		for (int i = 0; i < 200; i++) {	
+			if (particle[i]->GetIsAlive() == false) {
+				particle[i]->Spawn(*emitter);
+				break;
+			}	
+		}
+
 		for (int i = 0; i < 200; i++) {
-			particle[i]->Update(*emitter);
+			particle[i]->Update();
 		}
 
 		///

@@ -35,7 +35,7 @@ void Emitter::Update(char *keys) {
 
 void Emitter::Draw() {
 	Novice::DrawBox(
-		static_cast<int>(pos_.x - (size_.x/2.0f)),
+		static_cast<int>(pos_.x - (size_.x / 2.0f)),
 		static_cast<int>(pos_.y - (size_.y / 2.0f)),
 		static_cast<int>(size_.x),
 		static_cast<int>(size_.y),

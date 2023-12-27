@@ -11,7 +11,7 @@ Particle::Particle(Vector2 pos, Vector2 size, float gravity, bool isAlive) {
 	isAlive_ = isAlive;
 }
 
-void Particle::Update(Emitter emitter) {
+void Particle::Spawn(Emitter emitter) {
 	if (isAlive_ == false) {
 		//座標の初期化
 		pos_.x = (emitter.GetPosX() - (size_.x / 2.0f))
@@ -22,7 +22,9 @@ void Particle::Update(Emitter emitter) {
 		//フラグをtrueに
 		isAlive_ = true;
 	}
+}
 
+void Particle::Update() {
 	if (isAlive_ == true) {
 		//落下の計算
 		velosityY_ += gravity_;
@@ -34,7 +36,6 @@ void Particle::Update(Emitter emitter) {
 		}
 	}
 }
-
 
 void Particle::Draw() {
 	if (isAlive_ == true) {
