@@ -18,9 +18,15 @@ void Emitter::Update(char *keys) {
 	}
 	if (keys[DIK_DOWN]) {
 		size_.y -= 1.0f;
+		if (size_.y <= 2.0f) {
+			size_.y = 2.0f;
+		}
 	}
 	if (keys[DIK_LEFT]) {
 		size_.x -= 1.0f;
+		if (size_.x <= 2.0f) {
+			size_.x = 2.0f;
+		}
 	}
 	if (keys[DIK_RIGHT]) {
 		size_.x += 1.0f;

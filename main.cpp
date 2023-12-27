@@ -1,4 +1,6 @@
 #include <Novice.h>
+#include "Emitter.h"
+#include "Particle.h"
 
 const char kWindowTitle[] = "AL2_02_イシカワタケシ_AL2_4_1_確認課題";
 
@@ -8,9 +10,18 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	// ライブラリの初期化
 	Novice::Initialize(kWindowTitle, 1280, 720);
 
+	Emitter* emitter = new Emitter(0, 0, { 400,200 });
+	int mousePosX = 0;
+	int mousePosY = 0;
+
+	Particle* particle[200];
+	for (int i = 0; i < 200; i++) {
+		particle[i] = new Particle({ 0,0 }, { 10,10 }, 2.0f, false);
+	}
+
 	// キー入力結果を受け取る箱
-	char keys[256] = {0};
-	char preKeys[256] = {0};
+	char keys[256] = { 0 };
+	char preKeys[256] = { 0 };
 
 	// ウィンドウの×ボタンが押されるまでループ
 	while (Novice::ProcessMessage() == 0) {
@@ -20,10 +31,17 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		// キー入力を受け取る
 		memcpy(preKeys, keys, 256);
 		Novice::GetHitKeyStateAll(keys);
+		Novice::GetMousePosition(&mousePosX, &mousePosY);
 
 		///
 		/// ↓更新処理ここから
 		///
+
+		emitter->SetMousePos(mousePosX, mousePosY);
+		emitter->Update(keys);
+		for (int i = 0; i < 200; i++) {
+			particle[i]->Update(*emitter);
+		}
 
 		///
 		/// ↑更新処理ここまで
@@ -32,6 +50,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		///
 		/// ↓描画処理ここから
 		///
+
+		Novice::DrawBox(0, 0, 1280, 720, 0.0f, 0x000000ff, kFillModeSolid);
+		Novice::DrawLine(640, 0, 640, 720, 0xffffffff);
+		Novice::DrawLine(0, 360, 1280, 360, 0xffffffff);
+
+		emitter->Draw();
+
+		for (int i = 0; i < 200; i++) {
+			particle[i]->Draw();
+		}
 
 		///
 		/// ↑描画処理ここまで
